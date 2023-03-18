@@ -83,7 +83,7 @@ def draw_qr_file(index: int = 0, skew: str = "normal") -> None:
         display.BLACK,
         size + BORDER + 2 * PADDING,
         HEADER_HEIGHT,
-        BORDER // 2,
+        BORDER,
         HEIGHT - HEADER_HEIGHT,
     )
 
@@ -138,7 +138,9 @@ def draw_qr_file(index: int = 0, skew: str = "normal") -> None:
             2,
         )
 
-    if len(CODES) > 1:  # This would draw squares hinting to the number of QR codes
+    # This would draw squares hinting to the number of QR codes and to
+    # which one is active
+    if len(CODES) > 1:
         for i in range(len(CODES)):
             x = WIDTH - 20
             y = int((HEIGHT / 2) - (len(CODES) * 10 / 2) + (i * 14))

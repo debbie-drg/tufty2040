@@ -29,7 +29,6 @@ def update_content(state: dict) -> None:
     if mode == "badge":
         if state["mode_change"]:
             badge.draw_badge_text(skew)
-            state["mode_change"] = False
         badge.draw_badge_image(current_index, skew)
 
     if mode == "qr":
@@ -37,6 +36,10 @@ def update_content(state: dict) -> None:
 
     if mode == "gallery":
         gallery.show_image(current_index, skew)
+        
+    if state["mode_change"]:
+        state["mode_change"] = False
+        time.sleep(0.3)
 
 
 def buttons_abc(state: dict) -> bool:

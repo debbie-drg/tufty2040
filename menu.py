@@ -1,12 +1,23 @@
 import display
 
-options = [
+OPTIONS = [
     "a. Badge",
     "b. QR",
     "c. Gallery",
     "a. & c. Stickers",
 ]
 
+OPTION_BACKGROUND_COLOURS = [
+    display.YELLOW,
+    display.BACKGROUND,
+    display.PURPLE,
+    display.BLACK,
+]
+
+OPTION_SPACING = 40
+PADDING = 10
+TEXT_SPACING = 3
+BORDER_SIZE = 4
 
 def draw_menu_image():
     try:
@@ -16,11 +27,19 @@ def draw_menu_image():
 
 
 def show_options():
-    for line, option in enumerate(options):
+    for line, option in enumerate(OPTIONS):
         display.draw_rounded_rectangle(
-            display.BACKGROUND, 10, 10 + 38 * line, 230, 28, 3
+            OPTION_BACKGROUND_COLOURS[line],
+            PADDING - BORDER_SIZE,
+            PADDING + OPTION_SPACING * line - BORDER_SIZE,
+            230 + 2 * BORDER_SIZE,
+            30 + 2 * BORDER_SIZE - 2,
+            3
+        )        
+        display.draw_rounded_rectangle(
+            display.BACKGROUND, PADDING, PADDING + OPTION_SPACING * line, 230, 28, 3
         )
-        display.draw_text(option, "bitmap6", display.PURPLE, 15, 13 + 38 * line, 240, 3)
+        display.draw_text(option, "bitmap6", display.PURPLE, PADDING + TEXT_SPACING, 13 + OPTION_SPACING * line, 240, 3)
 
 
 def draw_menu():
