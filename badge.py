@@ -29,14 +29,18 @@ def draw_badge_text(skew: str = "normal"):
             for f in os.listdir(f"/{BADGE_ASSETS_DIRECTORY}/{skew}")
             if f.endswith(".txt")
         ][0]
-        
-    with open(f"/{BADGE_ASSETS_DIRECTORY}/{skew}/{badge_file}", "r") as f:
-        company = f.readline()
-        name = f.readline()
-        detail1 = f.readline()
-        detail2 = f.readline()
-        detail3 = f.readline()
-        detail4 = f.readline()
+    
+    try:
+        with open(f"/{BADGE_ASSETS_DIRECTORY}/{skew}/{badge_file}", "r") as f:
+            company = f.readline()
+            name = f.readline()
+            detail1 = f.readline()
+            detail2 = f.readline()
+            detail3 = f.readline()
+            detail4 = f.readline()
+    except NameError:
+        print("Badge file not found!")
+        return
     
     PADDING = 10
     LEFT_PADDING = 27
