@@ -8,9 +8,6 @@ from global_constants import (
 
 from autobrightness import auto_brightness
 
-NUMBER_SKEWS = len(SKEW_LIST)
-NUMBER_ALTERNATE_GALLERIES = len(ALTERNATE_GALLERY_SKEWS)
-
 import buttons, menu, badge, qr, gallery
 
 
@@ -56,10 +53,8 @@ def buttons_abc(state: dict) -> bool:
         if a_pressed and c_pressed:
             state["mode"] = "gallery"
             state["gallery_index"] += 1
-            if NUMBER_ALTERNATE_GALLERIES > 0:
-                state["gallery_index"] = (
-                    state["gallery_index"] % NUMBER_ALTERNATE_GALLERIES
-                )
+            if len(ALTERNATE_GALLERY_SKEWS) > 0:
+                state["gallery_index"] %= len(ALTERNATE_GALLERY_SKEWS)
                 state["skew"] = ALTERNATE_GALLERY_SKEWS[state["gallery_index"]]
             else:
                 print("Tried to access alternate galleries but none has been defined.")
@@ -95,7 +90,7 @@ def buttons_updown(state: dict) -> bool:
             state["skew"] = SKEW_LIST[0]
         else:
             state["skew_index"] += 1
-            state["skew_index"] = state["skew_index"] % NUMBER_SKEWS
+            state["skew_index"] %= len(SKEW_LIST)
             state["skew"] = SKEW_LIST[state["skew_index"]]
 
         state["index"] = 0
