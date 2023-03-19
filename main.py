@@ -1,5 +1,4 @@
 import time
-from pimoroni import Button
 
 from global_constants import (
     SKEW_LIST,
@@ -12,13 +11,7 @@ from autobrightness import auto_brightness
 NUMBER_SKEWS = len(SKEW_LIST)
 NUMBER_ALTERNATE_GALLERIES = len(ALTERNATE_GALLERY_SKEWS)
 
-button_a = Button(7, invert=False)
-button_b = Button(8, invert=False)
-button_c = Button(9, invert=False)
-button_up = Button(22, invert=False)
-button_down = Button(6, invert=False)
-
-import menu, badge, qr, gallery
+import buttons, menu, badge, qr, gallery
 
 
 def update_content(state: dict) -> None:
@@ -43,9 +36,9 @@ def update_content(state: dict) -> None:
 
 
 def buttons_abc(state: dict) -> bool:
-    a_pressed = button_a.is_pressed
-    b_pressed = button_b.is_pressed
-    c_pressed = button_c.is_pressed
+    a_pressed = buttons.is_pressed("a")
+    b_pressed = buttons.is_pressed("b")
+    c_pressed = buttons.is_pressed("c")
 
 
     if any([a_pressed, b_pressed, c_pressed]):
@@ -84,8 +77,8 @@ def buttons_abc(state: dict) -> bool:
 
 def buttons_updown(state: dict) -> bool:
 
-    up_pressed = button_up.is_pressed
-    down_pressed = button_down.is_pressed
+    up_pressed = buttons.is_pressed("up")
+    down_pressed = buttons.is_pressed("down")
 
     if up_pressed:
         state["index"] += 1
@@ -118,7 +111,7 @@ def main_loop():
     last_brightness_update = -1
     
     state = {
-        "mode": "badge",
+        "mode": "menu",
         "skew": "normal",
         "index": 0,
         "skew_index": 0,
