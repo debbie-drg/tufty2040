@@ -5,11 +5,11 @@ lux = ADC(26)
 last_brightness = 1
 
 
-def light_level():
+def light_level() -> int:
     return lux.read_u16()
 
 
-def auto_brightness():
+def auto_brightness() -> int:
     lux_level = light_level()
     brightness = ((lux_level / 5000) ** 0.4) * 0.63 + 0.32
     set_brightness(brightness)

@@ -6,7 +6,7 @@ HEADER_HEIGHT = 40
 BORDER = 3
 PADDING = 4
 
-from global_constants import SKEW_LIST, QR_CODE_DIRECTORY
+from global_constants import QR_CODE_DIRECTORY
 
 code = qrcode.QRCode()
 
@@ -15,7 +15,7 @@ code = qrcode.QRCode()
 # ------------------------------
 
 
-def measure_qr_code(size: int, code: qrcode.QRCode):
+def measure_qr_code(size: int, code: qrcode.QRCode) -> tuple(int, int):
     w, h = code.get_size()
     module_size = int(size / w)
     return module_size * w, module_size
@@ -37,7 +37,6 @@ def draw_qr_code(ox: int, oy: int, size: int, code: qrcode.QRCode) -> None:
 
 
 def draw_qr_file(index: int = 0, skew: str = "normal") -> None:
-
     try:
         CODES = [
             f for f in os.listdir(f"/{QR_CODE_DIRECTORY}/{skew}") if f.endswith(".txt")
@@ -108,9 +107,7 @@ def draw_qr_file(index: int = 0, skew: str = "normal") -> None:
     display.draw_rectangle(display.BLACK, 0, HEIGHT - HEADER_HEIGHT, WIDTH, BORDER)
 
     # Header text
-    display.draw_text(
-        title_text, "bitmap6", display.BLACK, PADDING + BORDER, 6, WIDTH, 5
-    )
+    display.draw_centered_text(title_text, "bitmap6", display.BLACK, 0, 8, WIDTH, 5)
 
     # Bottom text
     display.draw_text(

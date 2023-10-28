@@ -1,4 +1,4 @@
-from global_constants import SKEW_LIST, BADGE_ASSETS_DIRECTORY
+from global_constants import BADGE_ASSETS_DIRECTORY
 import os
 
 import display
@@ -13,23 +13,23 @@ IMAGE_WIDTH = 120
 # Layout settings
 BORDER_SIZE = 3
 COMPANY_HEIGHT = 40
-    
+PADDING = 10
+REMAINING = (HEIGHT - 120) // 4
+
 
 # ------------------------------
 #      Badge functions
 # ------------------------------
 
 
-def draw_badge_text(skew: str = "normal"):
+def draw_badge_text(skew: str = "normal") -> None:
     # Clear the Display
     display.clear(display.BLACK)
 
     badge_file = [
-            f
-            for f in os.listdir(f"/{BADGE_ASSETS_DIRECTORY}/{skew}")
-            if f.endswith(".txt")
-        ][0]
-    
+        f for f in os.listdir(f"/{BADGE_ASSETS_DIRECTORY}/{skew}") if f.endswith(".txt")
+    ][0]
+
     try:
         with open(f"/{BADGE_ASSETS_DIRECTORY}/{skew}/{badge_file}", "r") as f:
             company = f.readline()
@@ -41,11 +41,6 @@ def draw_badge_text(skew: str = "normal"):
     except NameError:
         print("Badge file not found!")
         return
-    
-    PADDING = 10
-    LEFT_PADDING = 27
-    
-    REMAINING = (HEIGHT - 120)//4
 
     # draw background
     display.draw_rectangle(
@@ -53,7 +48,7 @@ def draw_badge_text(skew: str = "normal"):
         BORDER_SIZE,
         BORDER_SIZE,
         WIDTH - (BORDER_SIZE * 2),
-        HEIGHT - (BORDER_SIZE * 2)
+        HEIGHT - (BORDER_SIZE * 2),
     )
 
     display.nb_flag(BORDER_SIZE, 120, 120, WIDTH - 120)
@@ -64,20 +59,18 @@ def draw_badge_text(skew: str = "normal"):
         BORDER_SIZE,
         BORDER_SIZE,
         WIDTH - (BORDER_SIZE * 2),
-        COMPANY_HEIGHT
+        COMPANY_HEIGHT,
     )
 
     # draw names below header
     display.draw_rectangle(
-        display.BLACK,
-        0,
-        COMPANY_HEIGHT + BORDER_SIZE,
-        WIDTH,
-        BORDER_SIZE
+        display.BLACK, 0, COMPANY_HEIGHT + BORDER_SIZE, WIDTH, BORDER_SIZE
     )
 
     # draw header text
-    display.draw_text(company, "bitmap6", display.BLACK, 17, BORDER_SIZE + 2, WIDTH, 5)
+    display.draw_centered_text(
+        company, "bitmap6", display.BLACK, 0, 2 * BORDER_SIZE, WIDTH, 5
+    )
 
     # Draw name background
     display.trans_flag(
@@ -88,29 +81,50 @@ def draw_badge_text(skew: str = "normal"):
     )
 
     # draw name text
-    display.draw_text(name, "bitmap14_outline", display.BLACK, 12, COMPANY_HEIGHT + 2, WIDTH, 6)
-    
+    display.draw_text(
+        name, "bitmap14_outline", display.BLACK, 3, COMPANY_HEIGHT + 8, WIDTH, 5
+    )
+
     # draw line below name
-    display.draw_rectangle(display.BLACK, 0, 120, WIDTH - IMAGE_WIDTH, BORDER_SIZE)    
+    display.draw_rectangle(display.BLACK, 0, 120, WIDTH - IMAGE_WIDTH, BORDER_SIZE)
 
     # draws the blurb text
-    display.draw_text(detail1, "bitmap6", display.BLACK, PADDING, 119 + PADDING, WIDTH, 2)
-    display.draw_text(detail2, "bitmap6", display.BLACK, PADDING, 119 + REMAINING + PADDING, WIDTH, 2)
-    display.draw_text(detail3, "bitmap6", display.BLACK, PADDING, 119 + 2 * REMAINING + PADDING, WIDTH, 2)
-    display.draw_text(detail4, "bitmap6", display.BACKGROUND, PADDING, 119 + 3 * REMAINING + PADDING, WIDTH, 2)
-    
+    display.draw_text(
+        detail1, "bitmap6", display.BLACK, PADDING, 119 + PADDING, WIDTH, 2
+    )
+    display.draw_text(
+        detail2, "bitmap6", display.BLACK, PADDING, 119 + REMAINING + PADDING, WIDTH, 2
+    )
+    display.draw_text(
+        detail3,
+        "bitmap6",
+        display.BLACK,
+        PADDING,
+        119 + 2 * REMAINING + PADDING,
+        WIDTH,
+        2,
+    )
+    display.draw_text(
+        detail4,
+        "bitmap6",
+        display.BACKGROUND,
+        PADDING,
+        119 + 3 * REMAINING + PADDING,
+        WIDTH,
+        2,
+    )
+
     # Draws a line separating the image
     display.draw_rectangle(
         display.BLACK,
         WIDTH - (2 * BORDER_SIZE + IMAGE_WIDTH),
         COMPANY_HEIGHT + BORDER_SIZE,
         BORDER_SIZE,
-        HEIGHT
+        HEIGHT,
     )
-            
 
-def draw_badge_image(index: int = 0, skew: str = "normal"):
 
+def draw_badge_image(index: int = 0, skew: str = "normal") -> None:
     try:
         badge_images = [
             f
@@ -120,20 +134,21 @@ def draw_badge_image(index: int = 0, skew: str = "normal"):
     except OSError:
         print(f"No badge images found for skew {skew}.")
         return
-    
+
     if len(badge_images) == 0:
         print(f"No badge images found for skew {skew}.")
         return
-    
-    image_path = f"/{BADGE_ASSETS_DIRECTORY}/{skew}/{badge_images[index % len(badge_images)]}"
+
+    image_path = (
+        f"/{BADGE_ASSETS_DIRECTORY}/{skew}/{badge_images[index % len(badge_images)]}"
+    )
 
     display.draw_image(
-        image_path,
-        WIDTH - IMAGE_WIDTH - BORDER_SIZE,
-        COMPANY_HEIGHT + 2 * BORDER_SIZE
+        image_path, WIDTH - IMAGE_WIDTH - BORDER_SIZE, COMPANY_HEIGHT + 2 * BORDER_SIZE
     )
-    
+
     display.update()
+
 
 if __name__ == "__main__":
     draw_badge_text()

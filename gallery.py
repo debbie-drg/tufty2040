@@ -9,7 +9,6 @@ from global_constants import GALLERY_DIRECTORY
 
 
 def show_image(index: int = 0, skew: str = "normal") -> None:
-
     try:
         IMAGES = [
             f for f in os.listdir(f"/{GALLERY_DIRECTORY}/{skew}") if f.endswith(".jpg")
@@ -17,7 +16,7 @@ def show_image(index: int = 0, skew: str = "normal") -> None:
     except OSError:
         print(f"No images directory for skew {skew}")
         return
-    
+
     if len(IMAGES) == 0:
         print(f"No images in skew {skew}. Image will not be printed")
         return
@@ -28,6 +27,7 @@ def show_image(index: int = 0, skew: str = "normal") -> None:
     display.clear(display.BACKGROUND)
     display.draw_image(image_path, 0, 0)
     display.update()
+
 
 if __name__ == "__main__":
     show_image()

@@ -8,9 +8,9 @@ buttons = {
     "down": 6,
 }
 
+
 def is_pressed(button: str) -> bool:
     try:
         return Button(buttons[button], invert=False).is_pressed
     except KeyError:
         print("Invalid button.")
-        
